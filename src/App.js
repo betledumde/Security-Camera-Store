@@ -43,7 +43,7 @@ export default function CameraPartsStore() {
 
   return (
     <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{ textAlign: "center", fontSize: "2rem", marginBottom: "1rem" }}>Security Camera Parts Store</h1>
+      <h1 style={{ textAlign: "center", fontSize: "2rem", marginBottom: "1rem" }}>Anthony's Surveillance</h1>
       <div style={{ maxWidth: "500px", margin: "0 auto", marginBottom: "1rem" }}>
         <input
           type="text"
