@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ShoppingCart } from "lucide-react";
 
-const products = [
+const initialProducts = [
   { id: 1, name: "PoE Injector", price: 29.99, description: "Power over Ethernet injector for IP cameras." },
   { id: 2, name: "IR Night Vision Module", price: 45.99, description: "Infrared module for night surveillance." },
   { id: 3, name: "Weatherproof Camera Housing", price: 59.99, description: "Outdoor-rated protective camera housing." },
@@ -8,23 +12,49 @@ const products = [
   { id: 5, name: "Camera Mount Bracket", price: 12.99, description: "Adjustable mount for security cameras." },
 ];
 
-function App() {
+export default function CameraPartsStore() {
+  const [cart, setCart] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const addToCart = (product) => {
+    setCart((prev) => [...prev, product]);
+  };
+
+  const filteredProducts = initialProducts.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1 style={{ textAlign: 'center' }}>Anthony's Surveillance</h1>
-      <input placeholder="Search for security parts..." style={{ display: 'block', margin: '1rem auto', padding: '0.5rem', width: '300px' }} />
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
-        {products.map(product => (
-          <div key={product.id} style={{ border: '1px solid #ccc', borderRadius: '10px', padding: '1rem', width: '250px' }}>
-            <h2>{product.name}</h2>
-            <p>{product.description}</p>
-            <p><strong>${product.price.toFixed(2)}</strong></p>
-            <button>Add to Cart</button>
-          </div>
+    <div className="p-4 space-y-6">
+      <h1 className="text-4xl font-bold text-center">Security Camera Parts Store</h1>
+      <div className="max-w-md mx-auto">
+        <Input
+          placeholder="Search for security parts..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="mb-4"
+        />
+        <div className="mb-2 text-sm font-semibold">Cart Items: {cart.length}</div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filteredProducts.map((product) => (
+          <Card key={product.id} className="rounded-2xl shadow-md">
+            <CardContent className="space-y-2 p-4">
+              <h2 className="text-xl font-semibold">{product.name}</h2>
+              <p className="text-sm text-gray-600">{product.description}</p>
+              <p className="text-lg font-bold">${product.price.toFixed(2)}</p>
+              <Button
+                onClick={() => addToCart(product)}
+                className="w-full flex items-center justify-center gap-2"
+              >
+                <ShoppingCart className="w-4 h-4" /> Add to Cart
+              </Button>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
   );
 }
 
-export default App;
